@@ -1,0 +1,380 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+	<Frame name="GrandMarshalTooltipTemplate" virtual="true" inherits="TooltipBackdropTemplate" hidden="true">
+		<Size>
+			<AbsDimension x="190" y="74" />
+		</Size>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_TUTORIAL_16_16" type="global" />
+		</KeyValues>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentText1" inherits="GameFontNormal" text="haha" justifyV="CENTER" justifyH="CENTER">
+					<Size>
+						<AbsDimension x="175" y="22" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentText2" inherits="GameFontNormalSmall" text="haha" justifyV="CENTER" justifyH="CENTER" wordwrap="true">
+					<Size>
+						<AbsDimension x="175" y="22" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentText1" relativePoint="BOTTOM" x="0" y="-5" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="GrandMarshalTickTemplate" virtual="true">
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" />
+		</Anchors>
+		<Frames>
+			<Frame name="$parentTick" virtual="true" enableMouse="true">
+				<Size>
+					<AbsDimension x="32" y="32" />
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" />
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="$parentArt" file="Interface\MainMenuBar\UI-ExhaustionTickNormal">
+							<Anchors>
+								<Anchor point="CENTER" />
+							</Anchors>
+						</Texture>
+						<FontString name="$parentNumber" inherits="GameFontNormalSmall" text="69420" justifyV="CENTER" justifyH="CENTER">
+							<Anchors>
+								<Anchor point="RIGHT" relativeTo="$parentArt" relativePoint="LEFT" x="12" y="1" />
+							</Anchors>
+						</FontString>
+					</Layer>
+					<Layer level="HIGHLIGHT">
+						<Texture file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD">
+							<Anchors>
+								<Anchor point="CENTER" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLeave>
+						_G[self:GetParent():GetName() .. "Tooltip"]:Hide()
+					</OnLeave>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentTooltip" inherits="GrandMarshalTooltipTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentTick" relativePoint="BOTTOM" x="0" y="0" />
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="GrandMarshalRankPaneTemplate" virtual="true" inherits="BackdropTemplate">
+		<Size>
+			<AbsDimension x="316" y="80" />
+		</Size>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_SLIDER_8_8" type="global" />
+		</KeyValues>
+		<Frames>
+			<Frame name="$parentRank" virtual="true">
+				<Size>
+					<AbsDimension x="100" y="16" />
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" x="10" />
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentText" font="Fonts\FRIZQT__.TTF" text="Loading..." justifyH="LEFT" justifyV="TOP">
+							<Color r="1.0" g="0.82" b="0" />
+							<FontHeight val="14" />
+							<Anchors>
+								<Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+						<Texture name="$parentIcon">
+							<Size x="16" y="16" />
+							<Anchors>
+								<Anchor point="RIGHT" relativeTo="$parentText"
+									relativePoint="LEFT" x="-5" y="0" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentRankTitleText" inherits="GameFontNormalSmall" text="Next Rank: ">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parent" relativePoint="TOP" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentRankSubText" inherits="GameFontNormalSmall" text="Loading...">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="$parentRank" relativePoint="BOTTOM" x="-10" y="-2" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentHKWarningText" inherits="GameFontNormalSmall" text="Earn 15 Honorable Kills this week to progress"
+					hidden="true">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parentRank" relativePoint="CENTER" x="0" y="0" />
+					</Anchors>
+				</FontString>
+				<Texture name="$parentMissionComplete" hidden="true">
+					<Size>
+						<AbsDimension x="78" y="78" />
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" x="0" y="-2" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				local factionGroup, factionName = UnitFactionGroup("player");
+				if ( factionGroup == "Alliance" ) then
+				_G[self:GetName() .. "MissionComplete"]:SetTexture("Interface\\PvPRankBadges\\PvPRankAlliance")
+				else
+				_G[self:GetName() .. "MissionComplete"]:SetTexture("Interface\\PvPRankBadges\\PvPRankHorde")
+				end
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="GrandMarshalColumnTemplate" inherits="HonorFrameTextButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="70" y="108" />
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlightSmall" text="COLUMN TITLE" justifyH="RIGHT">
+					<Size>
+						<AbsDimension x="80" y="18" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parent" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentTodayValue" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size>
+						<AbsDimension x="80" y="18" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTitle" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentYesterdayValue" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size>
+						<AbsDimension x="80" y="18" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentTodayValue" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentThisweekValue" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size>
+						<AbsDimension x="80" y="18" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentYesterdayValue" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLastweekValue" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size>
+						<AbsDimension x="80" y="18" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentThisweekValue" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLifetimeValue" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size>
+						<AbsDimension x="80" y="18" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentLastweekValue" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="GrandMarshalFullStatsTemplate" virtual="true" inherits="BackdropTemplate">
+		<Size>
+			<AbsDimension x="316" y="90" />
+		</Size>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTodayTitle" inherits="GameFontNormalSmall" text="HONOR_THIS_SESSION">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="2" y="-20" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentYesterdayTitle" inherits="GameFontNormalSmall" text="HONOR_YESTERDAY">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentTodayTitle" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentThisWeekTitle" inherits="GameFontNormalSmall" text="HONOR_THISWEEK">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentYesterdayTitle" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLastWeekTitle" inherits="GameFontNormalSmall" text="HONOR_LASTWEEK">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentThisWeekTitle" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLifetimeTitle" inherits="GameFontNormalSmall" text="HONOR_LIFETIME">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentLastWeekTitle" relativePoint="BOTTOMLEFT" x="0" y="-8" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentHK" inherits="GrandMarshalColumnTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentTodayTitle" relativePoint="TOPRIGHT" x="50" y="23" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName() .. "Title"]:SetText("HKs")
+						self.title = HONORABLE_KILLS;
+						self.tooltip = NEWBIE_TOOLTIP_HONORABLE_KILLS;
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentDK" inherits="GrandMarshalColumnTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentHK" relativePoint="RIGHT" x="0" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName() .. "Title"]:SetText("DKs")
+						self.title = DISHONORABLE_KILLS;
+						self.tooltip = NEWBIE_TOOLTIP_DISHONORABLE_KILLS;
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentHonor" inherits="GrandMarshalColumnTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentDK" relativePoint="RIGHT" x="0" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName() .. "Title"]:SetText(HONOR_CONTRIBUTION_POINTS)
+						self.title = HONOR_CONTRIBUTION_POINTS;
+						self.tooltip = NEWBIE_TOOLTIP_HONOR_CONTRIBUTION_POINTS;
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="GrandMarshalHelpOverviewTemplate" virtual="true">
+		<Size y="100" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString inherits="GameFontHighlightLarge" text="Overview" name="GrandMarshalHelpOverviewTitle">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString inherits="GameFontNormal" justifyH="LEFT" name="GrandMarshalHelpOverviewText" wordwrap="true" text="This page will give you an introduction to the Classic WoW ranking system.">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="GrandMarshalHelpOverviewTitle" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" justifyH="LEFT" name="GrandMarshalHelpOverviewText2" wordwrap="true" text="Since August 2023, your progress in the ranking system is not related to the progress of other players. Instead, you will progress when you earn enough honor to reach certain points, which will be different depending on your current rank. We will call these points where you gain rank progress &quot;milestones&quot;">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="GrandMarshalHelpOverviewText" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				GrandMarshalHelpOverviewText:SetWidth(620)
+				GrandMarshalHelpOverviewText2:SetWidth(620)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="GrandMarshalHelpProgressBarTemplate" virtual="true">
+		<Size y="600" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString inherits="GameFontHighlightLarge" text="Progress Bar" name="GrandMarshalHelpProgressBarTitle">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString inherits="GameFontNormal" justifyH="LEFT" name="GrandMarshalHelpProgressbarText" wordwrap="true" text="The progress bar tracks the honor you've earned this week">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="GrandMarshalHelpProgressBarTitle" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+				<Texture file="Interface\Addons\GrandMarshal\images\progress-bar" name="GrandMarshalHelpProgressBarTexture">
+					<Size x="460" y="230" />
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-50" />
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" justifyH="LEFT" name="GrandMarshalHelpProgressbarText2" wordwrap="true" text="As you earn honor, the progress bar will fill. When you reach a new milestone, you'll see that section of the bar turn blue and your projected rank will update. You ONLY earn rank progress by reaching a milestone - There is no partial progress or roll-over! If you don't gain enough honor to reach the next milestone for the week, that honor is wasted. This is indicated by the red section of the bar.">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="GrandMarshalHelpProgressbarText" relativePoint="BOTTOM" x="0" y="-266" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				GrandMarshalHelpProgressbarText:SetWidth(620)
+				GrandMarshalHelpProgressbarText2:SetWidth(620)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="GrandMarshalHelpFaqTemplate" virtual="true">
+		<Size y="100" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString inherits="GameFontHighlightLarge" text="Frequenty Asked Questions" name="GrandMarshalHelpFaqTitle">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString inherits="GameFontNormal" justifyH="LEFT" name="GrandMarshalHelpFaqTextQ1" wordwrap="true" text="Is this addon accurate?">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="GrandMarshalHelpFaqTitle" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" justifyH="LEFT" name="GrandMarshalHelpFaqTextA1" wordwrap="true" text="Yes, the Grand Marshal and Ranker addons have been verified against thousands of data points collected from Classic WoW players. HOWEVER, in rare cases the rank calculation can by off by .5-1%. This is completely random and unpredictable, and likely due to a bug in Blizzard's rank calculation. If you are hit by it I recommend complaining about it on the Blizzard forums.">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="GrandMarshalHelpFaqTextQ1" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				GrandMarshalHelpFaqTextQ1:SetWidth(620)
+				GrandMarshalHelpFaqTextA1:SetWidth(620)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
