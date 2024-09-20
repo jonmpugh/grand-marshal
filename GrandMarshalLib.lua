@@ -604,24 +604,6 @@ local function UpdateStats(updateAll)
     end
 end
 
-local function GrandMarshalFrame_SetLevel()
-    DebugPrint("GrandMarshalFrame_SetLevel")
-    GrandMarshalLevelText:SetFormattedText(PLAYER_LEVEL, UnitLevel("player"), UnitRace("player"), UnitClass("player"));
-end
-
-local function GrandMarshalFrame_SetGuild()
-    DebugPrint("GrandMarshalFrame_SetGuild")
-    local guildName;
-    local rank;
-    guildName, title, rank = GetGuildInfo("player");
-    if (guildName) then
-        GrandMarshalGuildText:Show();
-        GrandMarshalGuildText:SetFormattedText(GUILD_TITLE_TEMPLATE, title, guildName);
-    else
-        GrandMarshalGuildText:Hide();
-    end
-end
-
 -- ╔════════════════════════╗
 -- ║ Frame Script Functions ║
 -- ╚════════════════════════╝
@@ -667,13 +649,7 @@ function GrandMarshal_GrandMarshalFrameOnEvent(self, event, arg1)
         RankSoundOption = Settings.GRAND_MARSHAL_RANK_SOUND_OPTION:GetValue()
         SodRankLimit = Settings.GRAND_MARSHAL_SOD_RANK_LIMIT:GetValue()
         DebugEnabled = Settings.GRAND_MARSHAL_DEBUGGING:GetValue()
-    elseif event == "UNIT_LEVEL" then
-        GrandMarshalFrame_SetLevel()
-    elseif event == "PLAYER_GUILD_UPDATE" then
-        GrandMarshalFrame_SetGuild()
     elseif event == "PLAYER_ENTERING_WORLD" then
-        GrandMarshalFrame_SetGuild()
-        GrandMarshalFrame_SetLevel()
         UpdateStats(true)
     elseif event == "PLAYER_PVP_KILLS_CHANGED" then
         UpdateProgressBar()
@@ -731,7 +707,7 @@ end
 -- ║ Settings Configuration ║
 -- ╚════════════════════════╝
 
-function GrandMarhshall_ConfigureSettings()
+function GrandMarhshal_ConfigureSettings()
     -- Configure the settings categories
     local category, layout = Settings.RegisterVerticalLayoutCategory("Grand Marshal")
     Settings.GRAND_MARSHAL_CATEGORY = category
