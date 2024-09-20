@@ -1,0 +1,10 @@
+## Interface: 11502
+## Version: 1.0.0
+## Title: Grand Marshal
+## Notes: My first addon
+## Author: Dildore
+## SavedVariables: RankMsgEnabled RankSoundEnabled RankSoundOption SodRankLimit DebugEnabled
+
+GrandMarshalLib.lua
+GrandMarshalFrame.xml
+GrandMarshal.lua
